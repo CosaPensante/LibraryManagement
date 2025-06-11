@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 
+
 using namespace std;
 
 // Utility: Add one month to a YYYY-MM-DD date
@@ -47,9 +48,24 @@ string Loan::calculateDefaultReturnDate(const string& loanDate) {
     return oss.str();
 }
 
+
+std::string getTodayDate() {
+    time_t now = time(0);
+    tm localTime;
+    localtime_s(&localTime, &now);
+
+    std::ostringstream oss;
+    oss << std::put_time(&localTime, "%Y-%m-%d");
+    return oss.str();
+}
+
 // Constructor
-Loan::Loan(int id, int userId, const string& isbn, const string& loanDate, const string& returnDate)
-    : id(id), userId(userId), isbn(isbn), loanDate(loanDate), returnDate(returnDate) {}
+Loan::Loan(int id, int userId, const std::string& isbn)
+    : id(id), userId(userId), isbn(isbn)
+{
+    loanDate = getTodayDate();
+    returnDate = calculateDefaultReturnDate(loanDate);
+}
 
 // Getters
 int Loan::getId() const { return id; }

@@ -13,7 +13,7 @@ private:
 
 public:
     // Constructor
-    Loan(int id, int userId, const std::string& isbn, const std::string& loanDate, const std::string& returnDate="");
+    Loan(int id, int userId, const std::string& isbn);
 
     // Getters
     int getId() const;

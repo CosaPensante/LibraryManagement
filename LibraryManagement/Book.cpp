@@ -39,16 +39,23 @@ void Book::setAuthor(const string& newAuthor) {
 }
 
 void Book::setPublicationYear(int newPublicationYear) {
-    // Ottieni l'anno corrente
+    // Ottieni l'anno corrente in modo sicuro con localtime_s
     time_t now = time(0);
-    tm* localTime = localtime(&now);
-    int currentYear = localTime->tm_year + 1900;
+    tm localTime;
+
+    if (localtime_s(&localTime, &now) != 0) {
+        std::cerr << "Errore: impossibile ottenere la data corrente." << std::endl;
+        return;
+    }
+
+    int currentYear = localTime.tm_year + 1900;
 
     if (newPublicationYear > 0 && newPublicationYear <= currentYear) {
         publicationYear = newPublicationYear;
     }
     else {
-        cerr << "Errore: l'anno di pubblicazione deve essere compreso tra 1 e " << currentYear << "." << endl;
+        std::cerr << "Errore: l'anno di pubblicazione deve essere compreso tra 1 e "
+            << currentYear << "." << std::endl;
     }
 }
 
